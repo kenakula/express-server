@@ -27,6 +27,8 @@
     "strict": true,
     "skipLibCheck": true,
     "strictPropertyInitialization": false,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
     "plugins": [
       {
         "transform": "typescript-transform-paths"

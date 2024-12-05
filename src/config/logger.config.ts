@@ -1,6 +1,6 @@
 import pino from 'pino-http';
 
-export const logger = pino({
+export const loggerConfig = pino({
   level: process.env.LOG_LEVEL ?? 'info',
   customLogLevel: function (_req, res, err) {
     if (res.statusCode >= 400 && res.statusCode < 500) {

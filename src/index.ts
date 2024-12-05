@@ -1,7 +1,8 @@
 import * as http from 'node:http';
 
-import { createServer } from '@config/express';
-import { logger } from '@config/logger';
+import { DatabaseSource } from '@config/database.config';
+import { createServer } from '@config/express.config';
+import { loggerConfig } from '@config/logger.config';
 import { config } from 'dotenv';
 import { AddressInfo } from 'net';
 
@@ -11,15 +12,21 @@ const host = process.env.SERVER_HOST || 'localhost';
 const port = process.env.SERVER_PORT || '5000';
 
 const startServer = async (): Promise<void> => {
-  const app = createServer(logger);
+  const app = createServer(loggerConfig);
 
-  const server = http.createServer(app).listen({ port, host }, () => {
-    const addressInfo = server.address() as AddressInfo;
-    console.info(`Server ready at http://${addressInfo.address}:${addressInfo.port}`);
-  });
+  try {
+    await DatabaseSource.initialize();
+    loggerConfig.logger.info('Database connection started');
+    const server = http.createServer(app).listen({ port, host }, () => {
+      const addressInfo = server.address() as AddressInfo;
+      loggerConfig.logger.info(`Server ready at http://${addressInfo.address}:${addressInfo.port}`);
+    });
+  } catch (error) {
+    loggerConfig.logger.error(error);
+  }
 
   process.on('uncaughtException', (error) => {
-    console.log(error);
+    loggerConfig.logger.error(error);
   });
 };
 
