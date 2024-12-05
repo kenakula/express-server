@@ -1,4 +1,7 @@
 
+import { catchAllMiddleware } from '@middleware/catch-all.middleware';
+import { healthCheckRouter } from '@router/health-check.router';
+import { rootRouter } from '@router/root.router';
 import cors from 'cors';
 import express, { Application, RequestHandler } from 'express';
 import helmet from 'helmet';
@@ -14,9 +17,10 @@ export const createServer = (logger: RequestHandler): Application => {
 
   app.disable('x-powered-by');
 
-  app.get('/health', (_req, res) => {
-    res.status(200).send({ message: 'UP' });
-  });
+  app.use(healthCheckRouter);
+  app.use(rootRouter);
+
+  app.use(catchAllMiddleware);
 
   return app;
 };

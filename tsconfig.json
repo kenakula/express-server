@@ -11,6 +11,9 @@
       "@config/*": [
         "./src/config/*"
       ],
+      "@router/*": [
+        "./src/router/*"
+      ],
       "@controller/*": [
         "./src/controller/*"
       ],
