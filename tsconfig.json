@@ -10,6 +10,12 @@
       ],
       "@config/*": [
         "./src/config/*"
+      ],
+      "@controller/*": [
+        "./src/controller/*"
+      ],
+      "@middleware/*": [
+        "./src/middleware/*"
       ]
     },
     "outDir": "./dist",
