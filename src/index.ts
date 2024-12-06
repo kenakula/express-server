@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import * as http from 'node:http';
 
 import { DatabaseSource } from '@config/database.config';
