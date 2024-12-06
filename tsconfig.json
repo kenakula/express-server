@@ -19,6 +19,12 @@
       ],
       "@middleware/*": [
         "./src/middleware/*"
+      ],
+      "@domain/*": [
+        "./src/domain/*"
+      ],
+      "@repository/*": [
+        "./src/repository/*"
       ]
     },
     "outDir": "./dist",

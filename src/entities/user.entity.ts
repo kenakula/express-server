@@ -1,4 +1,4 @@
-import { User } from '@app/models/user';
+import { User } from '@app/domain/user';
 import { Length } from 'class-validator';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
