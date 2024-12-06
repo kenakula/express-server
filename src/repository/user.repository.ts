@@ -1,5 +1,5 @@
 import { UserEntity } from '@app/entities/user.entity';
-import { DatabaseSource } from '@config/database.config';
+import { DatabaseConfig } from '@config/database.config';
 import { BaseRepository } from '@repository/base.repository';
 import { Repository } from 'typeorm';
 
@@ -7,7 +7,7 @@ export class UserRepository implements BaseRepository<UserEntity> {
   private readonly dbRepository: Repository<UserEntity>;
 
   constructor() {
-    this.dbRepository = DatabaseSource.getRepository(UserEntity);
+    this.dbRepository = DatabaseConfig.getRepository(UserEntity);
   }
 
   getAll(): Promise<UserEntity[]> {

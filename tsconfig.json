@@ -17,6 +17,9 @@
       "@controller/*": [
         "./src/controller/*"
       ],
+      "@types/*": [
+        "./src/types/*"
+      ],
       "@middleware/*": [
         "./src/middleware/*"
       ],

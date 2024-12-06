@@ -1,7 +1,7 @@
 import { RootController } from '@controller/root.controller';
-import express from 'express';
+import { Router } from 'express';
 
-const router = express.Router();
+const router = Router();
 const { getRootData } = new RootController();
 
 router.get('/', getRootData);
