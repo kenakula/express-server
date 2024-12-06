@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes';
 
 const router = express.Router();
 
-router.get('/health', (_req, res) => {
+router.get('/', (_req, res) => {
   res.status(StatusCodes.OK).send({ message: 'UP' });
 });
 

@@ -18,9 +18,9 @@ export const createServer = (logger: RequestHandler): Application => {
 
   app.disable('x-powered-by');
 
-  app.use(healthCheckRouter);
-  app.use(userRouter);
-  app.use(rootRouter);
+  app.use('/health', healthCheckRouter);
+  app.use('/users', userRouter);
+  app.use('/', rootRouter);
 
   app.use(catchAllMiddleware);
 

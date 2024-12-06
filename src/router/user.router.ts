@@ -4,7 +4,7 @@ import { Router } from 'express';
 const router = Router();
 const controller = new UserController();
 
-router.get('/users', controller.getAllUsers);
-router.post('/users', controller.createUser);
+router.get('/', controller.getAllUsers);
+router.post('/', controller.createUser);
 
 export const userRouter = router;
