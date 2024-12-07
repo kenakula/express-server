@@ -26,6 +26,9 @@
       "@domain/*": [
         "./src/domain/*"
       ],
+      "@models/*": [
+        "./src/models/*"
+      ],
       "@repository/*": [
         "./src/repository/*"
       ]

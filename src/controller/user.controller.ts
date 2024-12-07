@@ -1,5 +1,4 @@
 import { UserEntity } from '@app/entities/user.entity';
-import { validateEntity } from '@app/utils';
 import { UserRepository } from '@repository/user.repository';
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
@@ -19,17 +18,13 @@ export class UserController {
 
   public createUser = async (req: Request, res: Response): Promise<void> => {
     try {
-      const { username } = req.body;
+      const { name } = req.body;
 
       const user = new UserEntity();
-      user.name = username;
+      user.name = name;
 
-      const isValid = await validateEntity(res, user);
-
-      if (isValid) {
-        const createdUser = await this.userRepository.create(user);
-        res.status(StatusCodes.CREATED).send(createdUser);
-      }
+      const createdUser = await this.userRepository.create(user);
+      res.status(StatusCodes.CREATED).send(createdUser);
 
     } catch (error) {
       res.status(StatusCodes.BAD_REQUEST).send(error);

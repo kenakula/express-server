@@ -2,7 +2,7 @@ import * as http from 'node:http';
 import { IncomingMessage, ServerResponse } from 'node:http';
 
 import { TLogLevels } from '@app/types';
-import { catchAllMiddleware } from '@middleware/catch-all.middleware';
+import { errorMiddleware } from '@middleware/error.middleware';
 import { healthCheckRouter } from '@router/health-check.router';
 import { rootRouter } from '@router/root.router';
 import { userRouter } from '@router/user.router';
@@ -60,6 +60,6 @@ export class AppConfig {
   }
 
   private initErrorHandlers(): void {
-    this._app.use(catchAllMiddleware);
+    this._app.use(errorMiddleware);
   }
 }

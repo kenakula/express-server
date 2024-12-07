@@ -1,9 +1,9 @@
-import { User } from '@app/domain/user';
+import { UserModel } from '@domain/userModel';
 import { Length } from 'class-validator';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class UserEntity implements User {
+export class UserEntity implements UserModel {
   @PrimaryGeneratedColumn()
   id: string;
 
