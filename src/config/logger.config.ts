@@ -1,9 +1,9 @@
 import { IncomingMessage, ServerResponse } from 'node:http';
 
-import { TLogLevels } from '@app/types';
+import { TLogLevel } from '@app/types';
 import pino, { HttpLogger } from 'pino-http';
 
-export const createLogger  = (level: string): HttpLogger<IncomingMessage, ServerResponse, TLogLevels> => pino({
+export const createLogger  = (level: string): HttpLogger<IncomingMessage, ServerResponse, TLogLevel> => pino({
   level,
   customLogLevel: function (_req, res, err) {
     if (res.statusCode >= 400 && res.statusCode < 500) {

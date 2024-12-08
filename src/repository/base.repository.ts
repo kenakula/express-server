@@ -1,4 +1,5 @@
-export abstract class BaseRepository<T> {
-  public getAll: () => Promise<T[]>;
-  public create: (data: T) => Promise<T>;
+import { ObjectLiteral, Repository } from 'typeorm';
+
+export abstract class BaseRepository<T extends ObjectLiteral> {
+  dbRepository: Repository<T>;
 }

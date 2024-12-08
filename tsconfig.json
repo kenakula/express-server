@@ -23,9 +23,6 @@
       "@middleware/*": [
         "./src/middleware/*"
       ],
-      "@domain/*": [
-        "./src/domain/*"
-      ],
       "@models/*": [
         "./src/models/*"
       ],

@@ -1,4 +1,4 @@
-import { HttpException } from '@models/exceptions/http-exception';
+import { HttpException } from '@models/http-exception';
 import { NextFunction, Request, Response } from 'express';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

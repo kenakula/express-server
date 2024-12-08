@@ -3,10 +3,11 @@ import { DatabaseConfig } from '@config/database.config';
 import { BaseRepository } from '@repository/base.repository';
 import { Repository } from 'typeorm';
 
-export class UserRepository implements BaseRepository<UserEntity> {
-  private readonly dbRepository: Repository<UserEntity>;
+export class UserRepository extends BaseRepository<UserEntity> {
+  dbRepository: Repository<UserEntity>;
 
   constructor() {
+    super();
     this.dbRepository = DatabaseConfig.getRepository(UserEntity);
   }
 

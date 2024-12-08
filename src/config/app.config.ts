@@ -1,30 +1,42 @@
 import * as http from 'node:http';
-import { IncomingMessage, ServerResponse } from 'node:http';
 
-import { TLogLevels } from '@app/types';
+import { TAppController, TLogLevel } from '@app/types';
+import { RootController } from '@controller/root.controller';
+import { UserController } from '@controller/user.controller';
 import { errorMiddleware } from '@middleware/error.middleware';
-import { healthCheckRouter } from '@router/health-check.router';
-import { rootRouter } from '@router/root.router';
-import { userRouter } from '@router/user.router';
 import cors from 'cors';
 import express, { Application, json, urlencoded } from 'express';
 import helmet from 'helmet';
 import { AddressInfo } from 'net';
 import { Logger } from 'pino';
-import { HttpLogger } from 'pino-http';
+
+import { createLogger } from './logger.config';
 
 export class AppConfig {
   private readonly _app: Application;
+  private readonly _port = process.env.SERVER_PORT || '5000';
+  private readonly _host = process.env.SERVER_HOST || 'localhost';
+  private readonly _logLevel = process.env.LOG_LEVEL ?? 'error';
+  private readonly _basePath = '/api';
+  private readonly _logger = createLogger(this._logLevel);
+  private readonly _controllers: TAppController[];
 
-  constructor(
-    private readonly _logger: HttpLogger<IncomingMessage, ServerResponse, TLogLevels>,
-    private readonly port: string,
-    private readonly host: string
-  ) {
+  constructor() {
     this._app = express();
 
+    this._controllers = [
+      {
+        controller: new RootController(),
+        path: '',
+      },
+      {
+        controller: new UserController(),
+        path: 'users',
+      }
+    ];
+
     this.initMiddlewares();
-    this.initRouters();
+    this.initControllers();
     this.initErrorHandlers();
   }
 
@@ -32,14 +44,14 @@ export class AppConfig {
     return this._app;
   }
 
-  public get logger(): Logger<TLogLevels, boolean> {
+  public get logger(): Logger<TLogLevel, boolean> {
     return this._logger.logger;
   }
 
   public listen(): void {
     const server = http.createServer(this._app);
 
-    server.listen({ port: this.port, host: this.host }, () => {
+    server.listen({ port: this._port, host: this._host }, () => {
       const addressInfo = server.address() as AddressInfo;
       this._logger.logger.info(`Server ready at http://${addressInfo.address}:${addressInfo.port} 🚀`);
     });
@@ -53,10 +65,10 @@ export class AppConfig {
     this._app.use(json());
   }
 
-  private initRouters(): void {
-    this._app.use('/health', healthCheckRouter);
-    this._app.use('/users', userRouter);
-    this._app.use('/', rootRouter);
+  private initControllers(): void {
+    this._controllers.forEach(({ controller: { router }, path }) => {
+      this._app.use(`${this._basePath}/${path}`, router);
+    });
   }
 
   private initErrorHandlers(): void {
