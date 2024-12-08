@@ -1,7 +1,8 @@
-import { BaseController } from '@controller/base.controller';
 import { ObjectLiteral } from 'typeorm';
 
+import { TController } from './controller.type';
+
 export type TAppController = {
-  controller: BaseController<ObjectLiteral>;
+  controller: TController<ObjectLiteral>
   path: string;
 };

@@ -1,24 +1,21 @@
 import { UserEntity } from '@app/entities/user.entity';
-import { BaseController } from '@controller/base.controller';
+import { TController } from '@app/types';
 import { validationMiddleware } from '@middleware/validation.middleware';
 import { UserRepository } from '@repository/user.repository';
 import { Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
-export class UserController extends BaseController<UserEntity> {
-  path: '/';
+export class UserController implements TController<UserEntity> {
   repository = new UserRepository();
   router  = Router();
 
   constructor() {
-    super();
-
     this.initializeRoutes();
   }
 
   public initializeRoutes(): void {
-    this.router.get(this.path, this.getAllUsers);
-    this.router.post(this.path, validationMiddleware(UserEntity), this.createUser);
+    this.router.get('/', this.getAllUsers);
+    this.router.post('/', validationMiddleware(UserEntity), this.createUser);
   }
 
   public getAllUsers = async (_req: Request, res: Response): Promise<void> => {

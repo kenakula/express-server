@@ -1,13 +1,12 @@
 import { UserEntity } from '@app/entities/user.entity';
+import { TRepository } from '@app/types';
 import { DatabaseConfig } from '@config/database.config';
-import { BaseRepository } from '@repository/base.repository';
 import { Repository } from 'typeorm';
 
-export class UserRepository extends BaseRepository<UserEntity> {
+export class UserRepository implements TRepository<UserEntity> {
   dbRepository: Repository<UserEntity>;
 
   constructor() {
-    super();
     this.dbRepository = DatabaseConfig.getRepository(UserEntity);
   }
 

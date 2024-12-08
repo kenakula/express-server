@@ -1,21 +1,21 @@
-import { BaseController } from '@controller/base.controller';
+import { TController } from '@app/types';
+import { UserRepository } from '@repository/user.repository';
 import  { Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 import { ObjectLiteral } from 'typeorm';
 
-export class RootController extends BaseController<ObjectLiteral> {
-  path: '/';
+export class RootController implements TController<ObjectLiteral> {
   healthCheckPath = '/health';
   router = Router();
+  // TODO rootRepository
+  repository = new UserRepository();
 
   constructor() {
-    super();
-
     this.initializeRoutes();
   }
 
   public initializeRoutes(): void {
-    this.router.get(this.path, this.getRootData);
+    this.router.get('/', this.getRootData);
     this.router.get(this.healthCheckPath, this.getHealth);
   }
 
