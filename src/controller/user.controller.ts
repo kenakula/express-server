@@ -6,6 +6,7 @@ import { Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 export class UserController implements TController<UserEntity> {
+  path: 'users';
   repository = new UserRepository();
   router  = Router();
 

@@ -6,6 +6,7 @@ import { ObjectLiteral } from 'typeorm';
 
 export class RootController implements TController<ObjectLiteral> {
   healthCheckPath = '/health';
+  path = '/';
   router = Router();
   // TODO rootRepository
   repository = new UserRepository();
@@ -15,7 +16,7 @@ export class RootController implements TController<ObjectLiteral> {
   }
 
   public initializeRoutes(): void {
-    this.router.get('/', this.getRootData);
+    this.router.get(this.path, this.getRootData);
     this.router.get(this.healthCheckPath, this.getHealth);
   }
 
