@@ -28,6 +28,9 @@
       ],
       "@repository/*": [
         "./src/repository/*"
+      ],
+      "@dto/*": [
+        "./src/dto/*"
       ]
     },
     "outDir": "./dist",

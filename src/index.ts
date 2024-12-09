@@ -1,13 +1,13 @@
 import 'reflect-metadata';
 
-import { AppConfig } from '@config/app.config';
+import { AppServer } from '@app/app-server';
 import { DatabaseConfig } from '@config/database.config';
 import { config } from 'dotenv';
 
 config();
 
 const startServer = async (): Promise<void> => {
-  const app = new AppConfig();
+  const app = new AppServer();
   const logger = app.logger;
 
   try {

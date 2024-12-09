@@ -7,4 +7,5 @@ export type TController<T extends ObjectLiteral> = {
   router: Router;
   path: string;
   repository: TRepository<T>;
+  initializeRoutes: () => void;
 };

@@ -7,15 +7,21 @@ export class UserEntity implements UserModel {
   @PrimaryGeneratedColumn()
   id: string;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   @Length(2, 100)
   name: string;
 
-  @Column()
+  @Column({
+    unique: true,
+  })
   @IsEmail()
   email: string;
 
-  @Column()
+  @Column({
+    nullable: true,
+  })
   @MinLength(6)
   password: string;
 }

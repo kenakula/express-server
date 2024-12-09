@@ -6,20 +6,21 @@ import { Request, Response, Router } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 export class UserController implements TController<UserEntity> {
-  path: 'users';
+  path: string;
   repository = new UserRepository();
   router  = Router();
 
   constructor() {
+    this.path = 'users';
     this.initializeRoutes();
   }
 
-  public initializeRoutes(): void {
+  initializeRoutes(): void {
     this.router.get('/', this.getAllUsers);
     this.router.post('/', validationMiddleware(UserEntity), this.createUser);
   }
 
-  public getAllUsers = async (_req: Request, res: Response): Promise<void> => {
+  private getAllUsers = async (_req: Request, res: Response): Promise<void> => {
     try {
       const users = await this.repository.getAll();
 
@@ -29,7 +30,7 @@ export class UserController implements TController<UserEntity> {
     }
   };
 
-  public createUser = async (req: Request, res: Response): Promise<void> => {
+  private createUser = async (req: Request, res: Response): Promise<void> => {
     try {
       const { name } = req.body;
 

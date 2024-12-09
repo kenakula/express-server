@@ -14,6 +14,14 @@ export class UserRepository implements TRepository<UserEntity> {
     return this.dbRepository.find();
   }
 
+  findByEmail(email: string): Promise<UserEntity | null> {
+    return this.dbRepository.findOne({
+      where: {
+        email
+      }
+    });
+  }
+
   create(data: UserEntity): Promise<UserEntity> {
     return this.dbRepository.save(data);
   }
