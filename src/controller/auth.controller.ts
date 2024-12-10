@@ -1,5 +1,6 @@
 import { UserEntity } from '@app/entities/user.entity';
-import { TController } from '@app/types';
+import { TController, TJwtData } from '@app/types';
+import { createToken } from '@app/utils/jwt.utils';
 import { omitProperty } from '@app/utils/omit-property.util';
 import { appConfig } from '@config/app.config';
 import { LoginDto, RegisterUserDto } from '@dto/auth';
@@ -22,6 +23,7 @@ export class AuthController implements TController<UserEntity> {
 
   initializeRoutes(): void {
     this.router.post('/login', validationMiddleware(LoginDto), this.login);
+    this.router.post('/logout', this.logout);
     this.router.post('/register', validationMiddleware(RegisterUserDto), this.register);
   };
 
@@ -43,7 +45,8 @@ export class AuthController implements TController<UserEntity> {
       user.password = hashedPassword;
 
       const createdUser = await this.repository.create(user);
-      res.status(StatusCodes.CREATED).send(omitProperty(createdUser, 'password'));
+      const tokenCookie = this.createCookie(createToken(user));
+      res.status(StatusCodes.CREATED).setHeader('Set-Cookie', tokenCookie).send(omitProperty(createdUser, 'password'));
     } catch (error) {
       next(new HttpException(StatusCodes.BAD_REQUEST, `Something went wrong: ${JSON.stringify(error)}`));
     }
@@ -65,9 +68,18 @@ export class AuthController implements TController<UserEntity> {
         return next(new HttpException(StatusCodes.UNAUTHORIZED, 'Password or email incorrect'));
       }
 
-      res.status(StatusCodes.OK).send(omitProperty(user, 'password'));
+      const tokenCookie = this.createCookie(createToken(user));
+      res.status(StatusCodes.OK).setHeader('Set-Cookie', tokenCookie).send(omitProperty(user, 'password'));
     } catch (error) {
       next(new HttpException(StatusCodes.BAD_REQUEST, `Something went wrong: ${JSON.stringify(error)}`));
     }
+  };
+
+  private logout = (_req: Request, res: Response): void => {
+    res.setHeader('Set-Cookie', ['Authorization=;Max-age=0']).status(StatusCodes.OK).send('Successfully logged out');
+  };
+
+  private createCookie = ({ token, expiresIn }: TJwtData): string => {
+    return `Authorization=${token}; HttpOnly; Max-Age=${expiresIn}`;
   };
 }

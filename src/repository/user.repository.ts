@@ -22,6 +22,10 @@ export class UserRepository implements TRepository<UserEntity> {
     });
   }
 
+  findById(id: string): Promise<UserEntity | null> {
+    return this.dbRepository.findOne({ where: { id } });
+  }
+
   create(data: UserEntity): Promise<UserEntity> {
     return this.dbRepository.save(data);
   }

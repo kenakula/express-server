@@ -19,5 +19,7 @@ export const appConfig = {
   },
   secrets: {
     hashRounds: Number(process.env.HASH_ROUNDS ?? 10),
+    jwtExpiresIn: Number(process.env.JWT_EXPIRES ?? 3600),
+    jwtSecret: process.env.JWT_SECRET ?? '',
   },
 };

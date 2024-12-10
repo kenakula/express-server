@@ -17,9 +17,6 @@
       "@controller/*": [
         "./src/controller/*"
       ],
-      "@types/*": [
-        "./src/types/*"
-      ],
       "@middleware/*": [
         "./src/middleware/*"
       ],
@@ -51,6 +48,9 @@
       }
     ]
   },
+  "include": [
+    "src/index.d.ts"
+  ],
   "ts-node": {
     "transpileOnly": true,
     "files": true

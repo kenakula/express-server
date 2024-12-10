@@ -8,6 +8,7 @@ import { AuthController } from '@controller/auth.controller';
 import { RootController } from '@controller/root.controller';
 import { UserController } from '@controller/user.controller';
 import { errorMiddleware } from '@middleware/error.middleware';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express, { Application, json, urlencoded } from 'express';
 import helmet from 'helmet';
@@ -52,11 +53,12 @@ export class AppServer {
   }
 
   private initMiddlewares(): void {
-    this._app.use(this._logger);
+    // this._app.use(this._logger);
     this._app.use(urlencoded({ extended: true }));
     this._app.use(cors());
     this._app.use(helmet());
     this._app.use(json());
+    this._app.use(cookieParser());
   }
 
   private initControllers(): void {

@@ -1,5 +1,6 @@
 import { UserEntity } from '@app/entities/user.entity';
 import { TController } from '@app/types';
+import { authMiddleware } from '@middleware/auth.middleware';
 import { validationMiddleware } from '@middleware/validation.middleware';
 import { UserRepository } from '@repository/user.repository';
 import { Request, Response, Router } from 'express';
@@ -16,7 +17,7 @@ export class UserController implements TController<UserEntity> {
   }
 
   initializeRoutes(): void {
-    this.router.get('/', this.getAllUsers);
+    this.router.get('/', authMiddleware, this.getAllUsers);
     this.router.post('/', validationMiddleware(UserEntity), this.createUser);
   }
 
