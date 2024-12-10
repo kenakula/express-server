@@ -53,7 +53,7 @@ export class AppServer {
   }
 
   private initMiddlewares(): void {
-    // this._app.use(this._logger);
+    this._app.use(this._logger);
     this._app.use(urlencoded({ extended: true }));
     this._app.use(cors());
     this._app.use(helmet());
